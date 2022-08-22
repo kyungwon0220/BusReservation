@@ -1,31 +1,46 @@
 #include "main.h"
 
+// 버스 정보
+const char* Bus_to[] = { "서울행", "대전행", "대구행", "부산행", "제주행" }; // 행선지 정보 배열
+const char* Bus_price[] = { "5,000\\ - 10,000\\", "10,000\\ - 15,000\\", "15,000\\ - 20,000\\", "20,000\\ - 25,000\\", "25,000\\ - 30,000\\" }; // 가격 정보 배열
+const char* Bus_fileName[] = { "bus1.txt", "bus2.txt", "bus3.txt", "bus4.txt", "bus5.txt" }; // 각 버스별, 좌석 현황 텍스트 파일名
+
+const int HowManyBus = sizeof(Bus_to) / sizeof(Bus_to[0]); // 버스 총 대수
+    /*
+        버스의 총 대수(2차원 배열에서 행(row 값은
+        배열이 차지하는 전체 공간을, 가로 한 줄의 크기로 나눠줌
+    */
+const int Seats = 40; // 버스 좌석 수
+
+
+
+
 main() {
     char* p = (char*)malloc(sizeof(char) * Seats);
 
     int i; // for문 연산 변수
     int* check = (int*)malloc(sizeof(int) * Seats); // 좌석 현황 체크 위한 변수
-    int full; // 버스 만석 체크 위한 변수
+    int vacancy; // 버스 만석 체크 위한 변수
 
-    int ChoseService;
+    int Cho_Service;
     int Cho_BusNum;
-    int bookingSeats;
+    int Cho_SeatNum;
 
 
 
     
- //   // 로그인 form
-	//for (int i = 0; i < 3; i++) {
-	//	
-	//	if (login() == 0) break; // 로그인 성공시 break;
-	//	
- //       // 로그인 3회 실패시
- //       if (i == 2) {
- //           printf("\nSorry you have entered the wrong username and password for %d times!!!\n", i+1);
- //           printf("\n\n\n\t\t\t\tPress any key to continue...");
- //           _getch(); //holds the screen
- //       }
-	//}
+    // 로그인 form
+	for (int i = 0; i < 3; i++) {
+		
+		if (login() == 0) break; // 로그인 성공시 break;
+		
+        // 로그인 3회 실패시
+        if (i == 2) {
+            printf("\nSorry you have entered the wrong username and password for %d times!!!\n", i+1);
+            printf("\n\n\n\t\t\t\tPress any key to continue...");
+            _getch(); //holds the screen
+        }
+	}
 
 
 
@@ -46,14 +61,14 @@ main() {
         printf("\t\t\t\t\t[5]=> Exit\n\n");
         printf("===============================================================================================================\n\n");
         printf("\t\t\tEnter Your Choice:: ");
-        scanf("%d", &ChoseService);
+        scanf("%d", &Cho_Service);
 
-        switch (ChoseService) {
+        switch (Cho_Service) {
         case 1: // View List
             system("cls");
             printf("\n\n\n");
             printf("=========================================== KOSTA BUS RESERVATION SYSTEM ============================================\n\n\n");
-            ViewBusList();
+            ViewBusList(HowManyBus, Bus_to, Bus_price);
             printf("\n\n\n\t\t\t\tPress any key to Move back...");
             break; // switch case1 end
 
@@ -64,50 +79,50 @@ main() {
             system("cls");
             printf("\n\n\n");
             printf("=========================================== BUS RESERVATION SYSTEM ============================================\n\n\n");
-            ViewBusList();
+            ViewBusList(HowManyBus, Bus_to, Bus_price);
             printf("Enter the Bus \" Only NUMBER \" :--->");
             scanf("%d", &Cho_BusNum); //for entering bus number
 
-                        
-            SeatFileOpenReadMode(Cho_BusNum, p); // 선택한 버스의 파일 內 좌석 현황 문자열 == *p;
+
+            SeatFileOpenReadMode(Bus_fileName[Cho_BusNum - 1], Seats, p); // 선택한 버스의 파일 內 좌석 현황 문자열 == *p;
 
 
             {// 버스 좌석 현황 체킹
-                full = 0; // 만석 체킹 前 초기화
+                vacancy = 0; // 만석 체킹 前 초기화
 
                 for (i = 0; i < Seats; i++) {
                     check[i] = 0; // 좌석 체킹 前 ' 0 ' 으로 초기화
 
                     if (p[i] == '1') {
-                        full++;
+                        vacancy++;
                         check[i] = 1;
                     }                    
                 }
 
-                if (full == Seats) { // 만석시
-                    ViewBusSeats(Cho_BusNum, check); // 현재 좌석 현황 form
+                if (vacancy == Seats) { // 만석시
+                    ViewBusSeats(Cho_BusNum, Bus_to, Seats, check); // 현재 좌석 현황 form
                     printf("\nThere is no blank seat in this bus ");
                     printf("\n\n\n\t\t\t\tPress any key to Move back..."); 
                     break; // switch case2 end
                 }
             }
 
-            ViewBusSeats(Cho_BusNum, check); // 현재 좌석 현황 form
+            ViewBusSeats(Cho_BusNum, Bus_to, Seats, check); // 현재 좌석 현황 form
             printf("\n\n\t\t\t\tEnter the seat number:--->");
-            scanf("%d", &bookingSeats); // 예약할 좌석 번호
+            scanf("%d", &Cho_SeatNum); // 예약할 좌석 번호
 
 
-            if (check[bookingSeats - 1] == 1) {
+            if (check[Cho_SeatNum - 1] == 1) {
                 printf("\n\n\t\t\t\t\t\t\t\t이미 예약된 좌석으로, 예약이 불가합니다.");
                 printf("\n\t\t\t\tPress any key to Move back...\n\t\t\t\t\tPlease Retry...");
             }
-            else if (check[bookingSeats - 1] == 0) {
-                check[bookingSeats - 1] = 1; // check[선택한 좌석] = (int)1;
+            else if (check[Cho_SeatNum - 1] == 0) {
+                check[Cho_SeatNum - 1] = 1; // check[선택한 좌석] = (int)1;
 
-                SeatFileWriteAddMode(Cho_BusNum, bookingSeats, check);
+                SeatFileWriteAddMode(Bus_fileName[Cho_BusNum - 1], Seats, check);
 
-                ViewBusSeats(Cho_BusNum, check); // 예약 완료(갱신 된 form
-                printf("\n\n\n\t\t\t\t\t\t\t\t%d번 좌석 Booking Success\n\t\t\t\tPress any key to Move back...", bookingSeats);
+                ViewBusSeats(Cho_BusNum, Bus_to, Seats, check); // 현재 좌석 현황 form
+                printf("\n\n\n\t\t\t\t\t\t\t\t%d번 좌석 Booking Success\n\t\t\t\tPress any key to Move back...", Cho_SeatNum);
             }
             
             break; // switch case2 end
@@ -119,50 +134,50 @@ main() {
             system("cls");
             printf("\n\n\n");
             printf("=========================================== BUS RESERVATION SYSTEM ============================================\n\n\n");
-            ViewBusList();
+            ViewBusList(HowManyBus, Bus_to, Bus_price);
             printf("Enter the Bus \" Only NUMBER \" :--->");
             scanf("%d", &Cho_BusNum); //for entering bus number
 
 
-            SeatFileOpenReadMode(Cho_BusNum, p); // 선택한 버스의 파일 內 좌석 현황 문자열 == *p;
+            SeatFileOpenReadMode(Bus_fileName[Cho_BusNum - 1], Seats, p); // 선택한 버스의 파일 內 좌석 현황 문자열 == *p;
 
 
             {// 버스 좌석 현황 체킹
-                full = Seats; // 만석 체킹 前 초기화
+                vacancy = Seats; // 체킹 前 초기화
 
                 for (i = 0; i < Seats; i++) {
                     check[i] = 0; // 좌석 체킹 前 ' 0 ' 으로 초기화
 
                     if (p[i] == '1') {
-                        full--;
+                        vacancy--;
                         check[i] = 1;
                     }
                 }
 
-                if (full == Seats) { // 예약되어 있는 좌석이 없을시
-                    ViewBusSeats(Cho_BusNum, check); // 현재 좌석 현황 form
+                if (vacancy == Seats) { // 예약되어 있는 좌석이 없을시
+                    ViewBusSeats(Cho_BusNum, Bus_to, Seats, check); // 현재 좌석 현황 form
                     printf("\n예약된 좌석이 없어, 취소할 내용이 없습니다.");
                     printf("\n\n\n\t\t\t\tPress any key to Move back...");
                     break; // switch case3 end
                 }
             }
 
-            ViewBusSeats(Cho_BusNum, check); // 현재 좌석 현황 form
+            ViewBusSeats(Cho_BusNum, Bus_to, Seats, check); // 현재 좌석 현황 form
             printf("\n\n\t\t\t\tEnter the seat number:--->");
-            scanf("%d", &bookingSeats); // 예약 취소할 좌석 번호
+            scanf("%d", &Cho_SeatNum); // 예약 취소할 좌석 번호
 
 
-            if (check[bookingSeats - 1] == 0) {
+            if (check[Cho_SeatNum - 1] == 0) {
                 printf("\n\n\t\t\t\t\t\t\t\t예약 내역이 없는 좌석으로, 예약 취소가 불가합니다.");
                 printf("\n\t\t\t\tPress any key to Move back...\n\t\t\t\t\tPlease Retry...");
             }
-            else if (check[bookingSeats - 1] == 1) {
-                check[bookingSeats - 1] = 0; // check[선택한 좌석] = (int)0;
+            else if (check[Cho_SeatNum - 1] == 1) {
+                check[Cho_SeatNum - 1] = 0; // check[선택한 좌석] = (int)0;
 
-                SeatFileWriteAddMode(Cho_BusNum, bookingSeats, check);
+                SeatFileWriteAddMode(Bus_fileName[Cho_BusNum - 1], Seats, check);
 
-                ViewBusSeats(Cho_BusNum, check); // 취소 완료(갱신 된 form
-                printf("\n\n\n\t\t\t\t\t\t\t\t%d번 좌석 Cancleing Success\n\t\t\t\tPress any key to Move back...", bookingSeats);
+                ViewBusSeats(Cho_BusNum, Bus_to, Seats, check); // 현재 좌석 현황 form
+                printf("\n\n\n\t\t\t\t\t\t\t\t%d번 좌석 Cancleing Success\n\t\t\t\tPress any key to Move back...", Cho_SeatNum);
             }
             break; // switch case3 end
 
@@ -181,6 +196,6 @@ main() {
 
         _getch(); //holds the screen
 
-    } while (ChoseService != 5);
+    } while (Cho_Service != 5);
 } //main end
 
