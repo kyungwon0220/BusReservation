@@ -10,3 +10,4 @@ void ViewBusList(int HowManyBus, char** Bus_to, char** Bus_price); // ViewBus.c
 void ViewBusSeats(int Cho_BusNum, char** Bus_to, int Seats, int* check); // ViewBus.c
 void SeatFileOpenReadMode(char* Bus_fileName, int Seats, char* p); // SeatFileOpenReadMode.c
 void SeatFileWriteAddMode(char* Bus_fileName, int Seats, int* check); // SeatFileWriteAddMode.c
+void SignUp(); // SignUp.c
