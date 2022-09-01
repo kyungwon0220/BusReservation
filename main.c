@@ -29,24 +29,66 @@ main() {
 
 
     
-    // 로그인 form
-	for (int i = 0; i < 3; i++) {
-		
-		if (login() == 0) break; // 로그인 성공시 break;
-		
-        // 로그인 3회 실패시
-        if (i == 2) {
-            printf("\nSorry you have entered the wrong username and password for %d times!!!\n", i+1);
-            printf("\n\n\n\t\t\t\tPress any key to continue...");
-            _getch(); //holds the screen
+    // 첫 화면(form
+    system("mode con cols=150 lines=50 | title BUS RESERVATION SYSTEM"); // 콘솔 실행시, 최초 사이즈 설정
+    system("cls");
+    printf("\n\n\n");
+    printf("====================================== REDY FOR BUS RESERVATION SYSTEM ======================================\n\n\n");
+    printf("\t\t\t\t\t[1]=> Login\n");
+    printf("\n");
+    printf("\t\t\t\t\t[2]=> SignUp\n");
+    printf("\n");
+    printf("=============================================================================================================\n\n");
+    printf("\t\t\tEnter Your Choice:: ");
+    scanf("%d", &Cho_Service);
+
+    switch (Cho_Service) {
+    case 1: // 로그인
+        for (int i = 0; i < 3; i++) {
+            if (login() == 0) break; // 로그인 성공시 break;
+
+            // 로그인 3회 실패시
+            if (i == 2) {
+                system("cls");
+                printf("\n\n\n");
+                printf("\nSorry you have entered the wrong username and password for %d times!!!\n", i + 1);
+                printf("\n회원 가입으로 이동합니다.\n");
+                printf("\n\n\n\t\t\t\t\tPress any key to continue...");
+                _getch(); //holds the screen
+                SignUp();
+            }
         }
-	}
+        break; // switch case1 end
+
+
+    case 2: //SignUp
+        SignUp();
+
+
+        {// 로그인 (== switch case1
+            for (int i = 0; i < 3; i++) {
+                if (login() == 0) break; // 로그인 성공시 break;
+
+                // 로그인 3회 실패시
+                if (i == 2) {
+                    system("cls");
+                    printf("\n\n\n");
+                    printf("\nSorry you have entered the wrong username and password for %d times!!!\n", i + 1);
+                    printf("\n회원 가입으로 이동합니다.\n");
+                    printf("\n\n\n\t\t\t\t\tPress any key to continue...");
+                    _getch(); //holds the screen
+                    SignUp();
+                }
+            }
+        }
+        break; // switch case2 end
+    } // switch end
 
 
 
-    
+
     do {
-        // 첫 화면
+        // 로그인 후, 첫 화면(form
         system("cls");
         printf("\n\n\n");
         printf("====================================== WELCOME TO BUS RESERVATION SYSTEM ======================================\n\n\n");
