@@ -11,3 +11,4 @@ void ViewBusSeats(int Cho_BusNum, char** Bus_to, int Seats, int* check); // View
 void SeatFileOpenReadMode(char* Bus_fileName, int Seats, char* p); // SeatFileOpenReadMode.c
 void SeatFileWriteAddMode(char* Bus_fileName, int Seats, int* check); // SeatFileWriteAddMode.c
 void SignUp(); // SignUp.c
+int FindUserName(); // FindUserName.c

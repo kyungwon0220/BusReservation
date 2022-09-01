@@ -17,6 +17,7 @@ const int Seats = 40; // 버스 좌석 수
 
 main() {
     char* p = (char*)malloc(sizeof(char) * Seats);
+    char* whoAm = (char*)malloc(sizeof(char) * Seats); // 현재 사용자名(로그인 後 저장될 변수
 
     int i; // for문 연산 변수
     int* check = (int*)malloc(sizeof(int) * Seats); // 좌석 현황 체크 위한 변수
@@ -37,6 +38,8 @@ main() {
     printf("\t\t\t\t\t[1]=> Login\n");
     printf("\n");
     printf("\t\t\t\t\t[2]=> SignUp\n");
+    printf("\n");
+    printf("\t\t\t\t\t[3]=> Find ' UserName '\n");
     printf("\n");
     printf("=============================================================================================================\n\n");
     printf("\t\t\tEnter Your Choice:: ");
@@ -82,6 +85,11 @@ main() {
             }
         }
         break; // switch case2 end
+
+
+    case 3: // 찾기
+        FindUserName();
+        break;
     } // switch end
 
 
