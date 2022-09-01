@@ -11,11 +11,15 @@ int login() {
 	char* username = (char*)malloc(sizeof(char) * loginLen);
 	char* password = (char*)malloc(sizeof(char) * loginLen);
 
-	printf("\n  =========================  LOGIN FORM  =========================  ");
-	printf(" \n                       ENTER USERNAME:-");
-	scanf("%s", username);
-	printf(" \n                       ENTER PASSWORD:-");
 
+
+
+	system("cls");
+	printf("\n\n\n");
+	printf("\n\t\t\t===================  LOGIN FORM  ===================\n");
+	printf("\n\t\t\t\t\tENTER USERNAME:\t");
+	scanf("%s", username);
+	printf("\n\t\t\t\t\tENTER PASSWORD:\t");
 
 	// 비밀번호 입력
 	for (int i = 0; i < loginLen; i++) {
@@ -40,19 +44,17 @@ int login() {
 	}
 
 
-	// root 로그인 성공시
-	if ( strcmp(username, "root") == 0 && strcmp(password, "pass") == 0 ) {
-		printf("  \n\n\n       WELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL");
-		printf("\n\n\n\t\t\t\tPress any key to continue...");
-		_getch(); //holds the screen
-		system("cls");
-		return 0;
-	}
-	//else { // 로그인 실패시 break;
-	//	printf("\n\n        SORRY !!!!  LOGIN IS UNSUCESSFUL");
-	//	printf("\n\n\n\t\t\t\tPress any key to Retry...");
+	//// root 로그인 성공시
+	//if ( strcmp(username, "root") == 0 && strcmp(password, "pass") == 0 ) {
+	//	printf("\n\n\n\t\t\tWELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL");
+	//	printf("\n\n\n\t\t\t\t\tPress any key to continue...");
 	//	_getch(); //holds the screen
-	//	system("cls");
+	//	return 0;
+	//}
+	//else { // 로그인 실패시 break;
+	//	printf("\n\n\n\t\t\tSORRY !!!!  LOGIN IS UNSUCESSFUL");
+	//	printf("\n\n\n\t\t\t\t\tPress any key to Retry...");
+	//	_getch(); //holds the screen
 	//	return 1;
 	//}
 

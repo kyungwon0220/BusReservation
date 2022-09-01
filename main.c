@@ -109,9 +109,9 @@ main() {
         case 1: // View List
             system("cls");
             printf("\n\n\n");
-            printf("=========================================== KOSTA BUS RESERVATION SYSTEM ============================================\n\n\n");
+            printf("=========================================== BUS RESERVATION SYSTEM ============================================\n\n\n");
             ViewBusList(HowManyBus, Bus_to, Bus_price);
-            printf("\n\n\n\t\t\t\tPress any key to Move back...");
+            printf("\n\n\n\t\t\t\t\tPress any key to Move back...");
             break; // switch case1 end
 
 
@@ -122,7 +122,7 @@ main() {
             printf("\n\n\n");
             printf("=========================================== BUS RESERVATION SYSTEM ============================================\n\n\n");
             ViewBusList(HowManyBus, Bus_to, Bus_price);
-            printf("Enter the Bus \" Only NUMBER \" :--->");
+            printf("\n\t\t\tEnter the Bus \" Only NUMBER \" :--->\t");
             scanf("%d", &Cho_BusNum); //for entering bus number
 
 
@@ -143,20 +143,22 @@ main() {
 
                 if (vacancy == Seats) { // 만석시
                     ViewBusSeats(Cho_BusNum, Bus_to, Seats, check); // 현재 좌석 현황 form
-                    printf("\nThere is no blank seat in this bus ");
-                    printf("\n\n\n\t\t\t\tPress any key to Move back..."); 
+                    printf("\n\t\t\t\t\tThere is no blank seat in this bus");
+                    printf("\n\t--------------------------------------------------\n");
+                    printf("\n\n\n\t\t\t\t\tPress any key to Move back...");
                     break; // switch case2 end
                 }
             }
 
             ViewBusSeats(Cho_BusNum, Bus_to, Seats, check); // 현재 좌석 현황 form
-            printf("\n\n\t\t\t\tEnter the seat number:--->");
+            printf("\n\n\n\t\t\t\tEnter the seat number:--->\t");
             scanf("%d", &Cho_SeatNum); // 예약할 좌석 번호
 
 
             if (check[Cho_SeatNum - 1] == 1) {
-                printf("\n\n\t\t\t\t\t\t\t\t이미 예약된 좌석으로, 예약이 불가합니다.");
-                printf("\n\t\t\t\tPress any key to Move back...\n\t\t\t\t\tPlease Retry...");
+                printf("\n\t\t\t\t\t이미 예약된 좌석으로, 예약이 불가합니다.");
+                printf("\n\t--------------------------------------------------\n");
+                printf("\n\n\n\t\t\t\t\tPress any key to Move back...");
             }
             else if (check[Cho_SeatNum - 1] == 0) {
                 check[Cho_SeatNum - 1] = 1; // check[선택한 좌석] = (int)1;
@@ -164,7 +166,9 @@ main() {
                 SeatFileWriteAddMode(Bus_fileName[Cho_BusNum - 1], Seats, check);
 
                 ViewBusSeats(Cho_BusNum, Bus_to, Seats, check); // 현재 좌석 현황 form
-                printf("\n\n\n\t\t\t\t\t\t\t\t%d번 좌석 Booking Success\n\t\t\t\tPress any key to Move back...", Cho_SeatNum);
+                printf("\n\n\n\t\t\t\t\t%d번 좌석 Booking Success", Cho_SeatNum);
+                printf("\n\t--------------------------------------------------\n");
+                printf("\n\n\n\t\t\t\t\tPress any key to Move back...");
             }
             
             break; // switch case2 end
@@ -177,7 +181,7 @@ main() {
             printf("\n\n\n");
             printf("=========================================== BUS RESERVATION SYSTEM ============================================\n\n\n");
             ViewBusList(HowManyBus, Bus_to, Bus_price);
-            printf("Enter the Bus \" Only NUMBER \" :--->");
+            printf("\n\t\t\tEnter the Bus \" Only NUMBER \" :--->\t");
             scanf("%d", &Cho_BusNum); //for entering bus number
 
 
@@ -198,20 +202,22 @@ main() {
 
                 if (vacancy == Seats) { // 예약되어 있는 좌석이 없을시
                     ViewBusSeats(Cho_BusNum, Bus_to, Seats, check); // 현재 좌석 현황 form
-                    printf("\n예약된 좌석이 없어, 취소할 내용이 없습니다.");
-                    printf("\n\n\n\t\t\t\tPress any key to Move back...");
+                    printf("\n\t\t\t\t\t예약된 좌석이 없어, 취소할 내용이 없습니다.");
+                    printf("\n\t--------------------------------------------------\n");
+                    printf("\n\n\n\t\t\t\t\tPress any key to Move back...");
                     break; // switch case3 end
                 }
             }
 
             ViewBusSeats(Cho_BusNum, Bus_to, Seats, check); // 현재 좌석 현황 form
-            printf("\n\n\t\t\t\tEnter the seat number:--->");
+            printf("\n\n\n\t\t\t\tEnter the seat number:--->\t");
             scanf("%d", &Cho_SeatNum); // 예약 취소할 좌석 번호
 
 
             if (check[Cho_SeatNum - 1] == 0) {
-                printf("\n\n\t\t\t\t\t\t\t\t예약 내역이 없는 좌석으로, 예약 취소가 불가합니다.");
-                printf("\n\t\t\t\tPress any key to Move back...\n\t\t\t\t\tPlease Retry...");
+                printf("\n\t\t\t\t\t예약 내역이 없는 좌석으로, 예약 취소가 불가합니다.");
+                printf("\n\t--------------------------------------------------\n");
+                printf("\n\n\n\t\t\t\t\tPress any key to Move back...");
             }
             else if (check[Cho_SeatNum - 1] == 1) {
                 check[Cho_SeatNum - 1] = 0; // check[선택한 좌석] = (int)0;
@@ -219,7 +225,9 @@ main() {
                 SeatFileWriteAddMode(Bus_fileName[Cho_BusNum - 1], Seats, check);
 
                 ViewBusSeats(Cho_BusNum, Bus_to, Seats, check); // 현재 좌석 현황 form
-                printf("\n\n\n\t\t\t\t\t\t\t\t%d번 좌석 Cancleing Success\n\t\t\t\tPress any key to Move back...", Cho_SeatNum);
+                printf("\n\n\n\t\t\t\t\t%d번 좌석 Cancleing Success", Cho_SeatNum);
+                printf("\n\t--------------------------------------------------\n");
+                printf("\n\n\n\t\t\t\t\tPress any key to Move back...");
             }
             break; // switch case3 end
 
@@ -228,11 +236,11 @@ main() {
 
         case 5: // Exit
             system("CLS");
-            printf("\t----------------------------------------------------------------------------------------------------------\n");
-            printf("\t\t\t\t\tThank You For Using This System\t\t\t\t\t\t\n");
-            printf("\t----------------------------------------------------------------------------------------------------------\n");
-            printf("\t\t\t Brought To You By Lee_kyungwon");
-            printf("\n\n\n\t\t\t\tPress any key to Exit...");
+            printf("---------------------------------------------------------------------------------------------------------------\n\n");
+            printf("\t\t\t\t\tThank You For Using This System\t\t\t\t\t\n");
+            printf("---------------------------------------------------------------------------------------------------------------\n\n");
+            printf("\t\t\t\t\t\t\t\t\t\tMade by Lee_kyungwon");
+            printf("\n\n\n\t\t\t\t\tPress any key to Exit...\n\n\n");
             break;
         } //switch case 5 end
 
@@ -240,4 +248,3 @@ main() {
 
     } while (Cho_Service != 5);
 } //main end
-

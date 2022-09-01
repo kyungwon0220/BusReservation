@@ -55,7 +55,6 @@ void SignUp() {
 		}
 	} while (strcmp(tmpPW, tmpPW2) != 0);
 	free(tmpPW2);
-	system("cls");
 
 
 
