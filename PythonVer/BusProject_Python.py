@@ -182,7 +182,57 @@ while True:
 
 
 
-	if _ChoseService == '5':
+	if _ChoseService == '3': # Cancleing
+		ViewBusList()
+		_ChoseBusNum = int(input("\n\t\t\tEnter the Bus \" Only NUMBER \" :--->\t")) #for entering bus number
+
+
+		p = list(SeatFileOpenReadMode(int(_ChoseBusNum))) # return 받은 좌석의 현황 문자열을, list형식 변수 p로
+
+
+		# 버스 좌석 체킹
+		vacancy = Seats # 체킹을 위한 변수 == vacancy
+		for i in range(Seats):
+			if p[i] == '1':
+				vacancy -= 1
+
+		if vacancy == Seats: # 예약되어 있는 좌석이 없을시
+			ViewBusSeats(_ChoseBusNum, p) # 현재 좌석 현황 form
+			print("\n\t\t\t\t\t예약된 좌석이 없어, 취소할 내용이 없습니다.")
+			print("\n\t--------------------------------------------------\n")
+			print("\n\n\n\t\t\t\t\tPress any key to Move back...")
+
+			msvcrt.getch() # /holds the screen
+			continue # 초기 화면으로
+
+
+		ViewBusSeats(_ChoseBusNum, p) # 현재 좌석 현황 form
+		_ChoseSeatNum = int(input("\n\n\n\t\t\t\tEnter the seat number:--->\t")) # 예약 취소할 좌석 번호
+
+		# 선택한 좌석 번호 공석 체킹
+		if p[int(_ChoseSeatNum) - 1] == '0':
+			print("\n\t\t\t\t\t예약 내역이 없는 좌석으로, 예약 취소가 불가합니다.")
+			print("\n\t--------------------------------------------------\n")
+			print("\n\n\n\t\t\t\t\tPress any key to Move back...")
+
+		elif p[int(_ChoseSeatNum) - 1] == '1':
+			p[int(_ChoseSeatNum) - 1] = str(0)
+			_newSeatsTxt = ''.join(p) # 새로운 좌석 현황 문자열 생성(왜냐하면, list 형식의 str형식 변환 必
+
+			SeatFileWriteAddMode(_newSeatsTxt, int(_ChoseBusNum))
+
+			ViewBusSeats(_ChoseBusNum, p) # 현재 좌석 현황 form
+			print("\n\n\n\t\t\t\t\t%d번 좌석 Cancleing Success" % _ChoseSeatNum)
+			print("\n\t--------------------------------------------------\n")
+			print("\n\n\n\t\t\t\t\tPress any key to Move back...")
+
+		msvcrt.getch() # /holds the screen
+		continue # 초기 화면으로
+
+
+
+
+	if _ChoseService == '5': # Exit
 		os.system('cls') # C언어(sys.cls
 		print("---------------------------------------------------------------------------------------------------------------\n\n")
 		print("\t\t\t\t\tThank You For Using This System\t\t\t\t\t\n")
@@ -191,4 +241,4 @@ while True:
 		print("\n\n\n\t\t\t\t\tPress any key to Exit...\n\n\n")
 		msvcrt.getch() # C언어 _getch()
 		os.system('cls') # C언어(sys.cls
-		break
+		break # whlie end
