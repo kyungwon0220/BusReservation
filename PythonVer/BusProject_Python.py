@@ -103,6 +103,47 @@ def SignUp():
 
 
 
+def FindUserName():
+	os.system('cls') # C언어(sys.cls
+	print("\n\n\n\n\t\t\t=================  FIND USERNAME FORM  =================\n")
+	_SearchName = str(input("\n\t\t\t\t\tINSERT USERNAME:\t"))
+
+	# 회원 파일 open
+	try:
+		f = open("memberList.txt", "rt", encoding="utf-8")
+	except: # 파일 부재시
+		f = open("memberList.txt", "wt", encoding="utf-8") # 파일 생성
+		f.write("root pass\n") # root 계정 자동 생성
+		f.close()
+		f = open("memberList.txt", "rt", encoding="utf-8") # 텍스트 읽기 모드로 파일 open
+
+
+	# 체킹
+	while True:
+		tmpLine = f.readline()
+		tmpName = str(tmpLine.split(' ')[0])
+
+		if(tmpName == str('')): # 파일의 끝은 마지막 엔터 개행자이므로, ''
+			print("\n\n\n\t\t\tSORRY !!!!")
+			print("\n\n\t\t\t입력한 USERNAME ' %s '으로는, 회원이 아닙니다. 회원 가입을 진행해 주세요." % str(_SearchName))
+			print("\n\t\t\t--------------------------------------------------\n")
+			print("\n\n\n\t\t\t\t\tPress any key to Retry...")
+
+			msvcrt.getch() # holds the screen
+			f.close() # open 용무 종료
+			break # 회원 파일의 끝 도달시 break
+
+		if str(_SearchName) == str(tmpName): # ID clear
+			print("\n\n\n\t\t\tWELCOME TO OUR SYSTEM !!!!\n\n\n\t\t\tUSERNAME \" %s \" 회원이 맞습니다." % str(tmpName))
+			print("\n\n\n\t\t\t\t\tPress any key to continue...")
+
+			msvcrt.getch() # holds the screen
+			f.close() # open 용무 종료
+			break # 첫 화면(form)
+
+
+
+
 
 
 
@@ -116,6 +157,7 @@ while _Redy:
 	print("\n\n\n====================================== REDY FOR BUS RESERVATION SYSTEM ======================================\n\n\n")
 	print("\t\t\t\t\t[1]=> Login\n")
 	print("\n\t\t\t\t\t[2]=> SignUp\n")
+	print("\n\t\t\t\t\t[3]=> Find ' UserName '\n")
 	print("\n=============================================================================================================\n\n")
 	_ChoseService = int(input("\t\t\tEnter Your Choice:: "))
 
@@ -211,6 +253,13 @@ while _Redy:
 	if _ChoseService == 2: # SignUp
 		SignUp()
 		_stack = int(0) # 가입 後 로그인 실패 stack 초기화
+
+
+
+
+	if _ChoseService == 3: # 찾기
+		FindUserName()
+		_stack = int(0) # 로그인 실패 stack 초기화
 
 
 
