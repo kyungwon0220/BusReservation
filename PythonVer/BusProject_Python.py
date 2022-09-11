@@ -72,44 +72,156 @@ def SeatFileWriteAddMode(_newSeatsTxt, _ChoseBusNum):
 
 
 
+def SignUp():
+	os.system('cls') # C언어(sys.cls
+	print("\n\n\n\n\t\t\t===================  SignUp FORM  ===================\n")
+	_WantID = str(input("\n\t\t\t\t\tINSERT USERNAME:\t"))
+
+	while True:
+		_WantPassword = getpass.getpass("\n\t\t\t\t\tINSERT PASSWORD:\t")
+		_CheckPassword = getpass.getpass("\n\n\t\t\t\t\tPASSWORD Check :\t")
+
+		if _WantPassword != _CheckPassword: # PASSWORD ERROR시
+			print("\n\t\t\t\t\tPASSWORD Error : 가입 실패\n")
+			print("\n\t\t\t--------------------------------------------------\n")
+			print("\t\t\t\t\tPASSWORD 다시 입력해 주세요\n")
+		elif _WantPassword == _CheckPassword:
+			print("\n\n\n\t\t\t\t\t가입 완료!\n")
+			print("===============================================================================================================\n\n")
+
+			msvcrt.getch() # holds the screen
+			break # 첫 화면(form)
+
+	# 회원 파일에 저장
+	f = open("memberList.txt", "at", encoding="utf-8")
+	f.write(_WantID)
+	f.write(" ")
+	f.write(_WantPassword)
+	f.write("\n")
+	f.close() # open 용무 종료
 
 
 
 
 
-## 로그인 form
-#_stack = 0
-#while True:
-#	print("\n\n\n\n\t\t\t===================  LOGIN FORM  ===================\n")
-#	username = input("\n\t\t\t\t\tENTER USERNAME:\t")
-#	password = getpass.getpass("\n\t\t\t\t\tENTER PASSWORD:\t")
 
-#	if username == "root" and password == "pass": # root 로그인 성공시
-#		print("\n\n\n\t\t\tWELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL")
-#		print("\n\n\n\t\t\t\t\tPress any key to continue...")
-#		msvcrt.getch() # /holds the screen
-#		os.system('cls') # C언어(sys.cls
-#		break
-#	else: # 로그인 실패시
-#		print("\n\n\n\t\t\tSORRY !!!!  LOGIN IS UNSUCESSFUL")
-#		print("\n\n\n\t\t\t\t\tPress any key to Retry...")
-#		_stack += 1
-#		msvcrt.getch() # holds the screen
-#		os.system('cls') # C언어(sys.cls
 
-#	if _stack == 3: # 로그인 3회 실패시
-#		print("\n\n\n\nSorry you have entered the wrong username and password for ", _stack , "times!!!\n")
-#		#print("\n회원 가입으로 이동합니다.\n")
-#		print("\n\n\n\t\t\t\t\tPress any key to continue...")
-#		msvcrt.getch() # holds the screen
-#		os.system('cls') # C언어(sys.cls
-#		break
+
+
+_stack = int(0) # 로그인 실패 stack
+_Redy = int(1) # ' 첫 화면(form) ' while 조건을 위한 변수
+while _Redy:
+	# 첫 화면(form)
+	os.system('cls') # C언어(sys.cls
+	print("\n\n\n====================================== REDY FOR BUS RESERVATION SYSTEM ======================================\n\n\n")
+	print("\t\t\t\t\t[1]=> Login\n")
+	print("\n\t\t\t\t\t[2]=> SignUp\n")
+	print("\n=============================================================================================================\n\n")
+	_ChoseService = int(input("\t\t\tEnter Your Choice:: "))
+
+		
+	if _ChoseService == 1: # 로그인
+		if _stack == int(3): # 로그인 3회 실패시
+			os.system('cls') # C언어(sys.cls
+			print("\n\n\n\nSorry you have entered the wrong username and password for ", int(_stack) , "times!!!\n")
+			print("\n회원 가입으로 이동합니다.\n")
+			print("\n\n\n\t\t\t\t\tPress any key to continue...")
+			_ChoseService = 2
+			msvcrt.getch() # holds the screen
+
+		else:
+			os.system('cls') # C언어(sys.cls
+			print("\n\n\n\n\t\t\t===================  LOGIN FORM  ===================\n")
+			username = input("\n\t\t\t\t\tENTER USERNAME:\t")
+			password = getpass.getpass("\n\t\t\t\t\tENTER PASSWORD:\t")
+
+
+			# 회원 파일 open
+			try:
+				f = open("memberList.txt", "rt", encoding="utf-8")
+			except: # 파일 부재시
+				f = open("memberList.txt", "wt", encoding="utf-8") # 파일 생성
+				f.write("root pass\n") # root 계정 자동 생성
+				f.close()
+				f = open("memberList.txt", "rt", encoding="utf-8") # 텍스트 읽기 모드로 파일 open
+			
+
+			# 회원 확인
+			while True:
+				tmpLine = f.readline()
+				tmpName = str(tmpLine.split(' ')[0])
+
+				if(tmpName == str('')): # 파일의 끝은 마지막 엔터 개행자이므로, ''
+					if str(username) != str(tmpName):
+						print("\n\n\n\t\t\tSORRY !!!!  LOGIN IS UNSUCESSFUL")
+						print("\n\n\t\t\t입력한 USERNAME 으로는, 회원이 아닙니다.")
+						print("\n\n\n\t\t\t\t\tPress any key to Retry...")
+						_stack += int(1)
+
+						f.close() # open 용무 종료
+						msvcrt.getch() # holds the screen
+						break # 첫 화면(form)
+						break # 회원 파일의 끝 도달시 break
+								
+					
+				tmpPW = str(tmpLine.split(' ')[1])
+
+				#print(tmpName) #debug
+				#print(tmpPW[:-1]) #debug
+				#print(username) #debug
+				#print(password) #debug
+
+				if str(username) == str(tmpName): # ID clear
+					if str(password) == str(tmpPW[:-1]): # PW clear
+						print("\n\n\n\t\t\tWELCOME TO OUR SYSTEM !!!! \" %s \" LOGIN IS SUCCESSFUL" % tmpName)
+						print("\n\n\n\t\t\t\t\tPress any key to continue...")
+						_Redy = int(0)
+
+						f.close() # open 용무 종료
+						msvcrt.getch() # holds the screen
+						break # 첫 화면(form)
+					else: # PW ERROR
+						print("\n\n\n\t\t\tSORRY !!!!  LOGIN IS UNSUCESSFUL")
+						print("\n\n\t\t\tPASSWORD ERROR")
+						print("\n\n\n\t\t\t\t\tPress any key to Retry...")
+						_stack += int(1)
+
+						f.close() # open 용무 종료
+						msvcrt.getch() # holds the screen
+						break # 첫 화면(form)
+
+
+
+
+			#if username == "root" and password == "pass": # root 로그인 성공시
+			#	print("\n\n\n\t\t\tWELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL")
+			#	print("\n\n\n\t\t\t\t\tPress any key to continue...")
+			#	msvcrt.getch() # /holds the screen
+			#	os.system('cls') # C언어(sys.cls
+			#	break # 첫 화면(form)
+			#else: # root 로그인 실패시
+			#	print("\n\n\n\t\t\tSORRY !!!!  LOGIN IS UNSUCESSFUL")
+			#	print("\n\n\n\t\t\t\t\tPress any key to Retry...")
+			#	_stack += int(1)
+			#	msvcrt.getch() # holds the screen
+
+
+
+
+	if _ChoseService == 2: # SignUp
+		SignUp()
+		_stack = int(0) # 가입 後 로그인 실패 stack 초기화
+
+
+
+
+
 
 
 
 
 while True:
-	# 초기 화면
+	# 로그인 후, 첫 화면(form
 	os.system('cls') # C언어(sys.cls
 	print("\n\n\n====================================== WELCOME TO BUS RESERVATION SYSTEM ======================================\n\n\n")
 	print("\t\t\t\t\t[1]=> View Bus List\n")
