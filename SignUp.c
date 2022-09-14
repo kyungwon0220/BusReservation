@@ -3,10 +3,14 @@
 #define loginLen 21 // login.c 파일에서의 define과는 ' 별개 ' define
 
 void SignUp() {
+	unsigned short SignUserName = 1; // USERNAME 생성시, while 조건
 	FILE* fp;
+	char* tmpName = (char*)malloc(sizeof(char) * loginLen); // 체킹을 위해, 파일을 읽어와서 저장할 변수
+	char* tmpPtr;
+
 	char* tmpID = (char*)malloc(sizeof(char) * loginLen);
 	char* tmpPW = (char*)malloc(sizeof(char) * loginLen);
-	char* tmpPW2 = (char*)malloc(sizeof(char) * loginLen); // PW 체킹위한 변수
+	char* tmpPW2 = (char*)malloc(sizeof(char) * loginLen); // PW 체킹을 위한 변수
 
 
 
@@ -25,10 +29,38 @@ void SignUp() {
 			printf("\n\t\t\t--------------------------------------------------\n");
 			printf("\t\t\t\t\tUSERNAME 다시 입력해 주세요\n");
 			_getch(); //holds the screen
+			continue;
 		}
-	} while (strlen(tmpID) < 5); // USERNAME 생성 조건
-	
 
+		{// USERNAME 중복 체킹			
+			FILE* fp = fopen("memberList.txt", "r"); // 회원 파일을 읽기 모드로 fopen
+
+			while (!feof(fp)) {
+				tmpPtr = fgets(tmpName, loginLen + 1, fp);
+				tmpPtr = strtok(tmpName, " ");
+
+				if (strcmp(tmpPtr, tmpID) == 0) { // USERNAME 중복시
+					printf("\n\n\n\t\t\tSORRY !!!!");
+					printf("\n\t\t\t\t\tUSERNAME Error : 중복된 USERNAME\t가입 실패\n");
+					printf("\n\t\t\t--------------------------------------------------\n");
+					printf("\t\t\t\t\tUSERNAME 다시 입력해 주세요\n");
+
+					_getch(); //holds the screen
+					break;
+				}
+			}
+
+			if (strcmp(tmpPtr, tmpID) != 0) { // USERNAME 중복 없을시
+				SignUserName = 0; // while end
+
+				free(tmpName);
+				fclose(fp);
+			}
+		}
+	} while (SignUserName); // USERNAME 생성 조건
+
+
+	// PASSWORD 생성
 	do {
 		system("cls");
 		printf("\n\n\n");
