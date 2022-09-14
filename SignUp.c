@@ -11,13 +11,29 @@ void SignUp() {
 
 
 
-	system("cls");
-	printf("\n\n\n");
-	printf("\n\t\t\t===================  SignUp FORM  ===================\n");
-	printf("\n\t\t\t\t\tINSERT USERNAME:\t");
-	scanf("%s", tmpID);
+	// USERNAME 先 생성
+	do {
+		system("cls");
+		printf("\n\n\n");
+		printf("\n\t\t\t===================  SignUp FORM  ===================\n");
+		printf("\n\t\t\t\t\tINSERT USERNAME:\t");
+
+		scanf("%s", tmpID);
+
+		if (strlen(tmpID) < 5) {
+			printf("\n\t\t\t\t\tUSERNAME Error : strlen(USERNAME) < 5\t가입 실패\n");
+			printf("\n\t\t\t--------------------------------------------------\n");
+			printf("\t\t\t\t\tUSERNAME 다시 입력해 주세요\n");
+			_getch(); //holds the screen
+		}
+	} while (strlen(tmpID) < 5); // USERNAME 생성 조건
+	
 
 	do {
+		system("cls");
+		printf("\n\n\n");
+		printf("\n\t\t\t===================  SignUp FORM  ===================\n");
+		printf("\n\t\t\t\t\tINSERT USERNAME:\t%s", tmpID);
 		printf("\n\t\t\t\t\tINSERT PASSWORD:\t");
 
 
@@ -47,9 +63,11 @@ void SignUp() {
 			printf("\n\t\t\t\t\tPASSWORD Error : 가입 실패\n");
 			printf("\n\t\t\t--------------------------------------------------\n");
 			printf("\t\t\t\t\tPASSWORD 다시 입력해 주세요\n");
+			_getch(); //holds the screen
 		}
 		else {
 			printf("\n\n\n\t\t\t\t\t가입 완료!\n");
+			printf("\n로그인으로 이동합니다.\n");
 			printf("===============================================================================================================\n\n");
 			_getch(); //holds the screen
 		}
