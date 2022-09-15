@@ -3,7 +3,7 @@
 #define loginLen 21
 
 int FindUserName() {
-	FILE* fp = fopen("memberList.txt", "r"); // 회원 파일을 읽기 모드로 fopen
+	FILE* fp; // fopen 위한 변수
 
 	char* tmpName = (char*)malloc(sizeof(char) * loginLen); // 체킹을 위해, 파일을 읽어와서 저장할 변수
 	char* tmpPtr;
@@ -17,6 +17,16 @@ int FindUserName() {
 	printf("\n\t\t\t=================  FIND USERNAME FORM  =================\n");
 	printf("\n\t\t\t\t\tINSERT USERNAME:\t");
 	scanf("%s", SearchName); // 검색할 USERNAME
+
+
+	fp = fopen("memberList.txt", "r");
+
+	if (fp == NULL) { // 회원 파일 없을시
+		fp = fopen("memberList.txt", "w"); // 파일 생성
+		fclose(fp);
+		fp = fopen("memberList.txt", "r"); // 읽기(Read 모드로 파일 open
+	}
+
 
 	while (!feof(fp)) {
 		tmpPtr = fgets(tmpName, loginLen + 1, fp);

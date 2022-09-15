@@ -30,47 +30,29 @@ main() {
 
 
     
-    // 첫 화면(form
-    system("mode con cols=150 lines=50 | title BUS RESERVATION SYSTEM"); // 콘솔 실행시, 최초 사이즈 설정
-    system("cls");
-    printf("\n\n\n");
-    printf("====================================== REDY FOR BUS RESERVATION SYSTEM ======================================\n\n\n");
-    printf("\t\t\t\t\t[1]=> Login\n");
-    printf("\n");
-    printf("\t\t\t\t\t[2]=> SignUp\n");
-    printf("\n");
-    printf("\t\t\t\t\t[3]=> Find ' UserName '\n");
-    printf("\n");
-    printf("=============================================================================================================\n\n");
-    printf("\t\t\tEnter Your Choice:: ");
-    scanf("%d", &Cho_Service);
+    do {
+        // 첫 화면(form
+        system("mode con cols=150 lines=50 | title BUS RESERVATION SYSTEM"); // 콘솔 실행시, 최초 사이즈 설정
+        system("cls");
+        printf("\n\n\n");
+        printf("====================================== REDY FOR BUS RESERVATION SYSTEM ======================================\n\n\n");
+        printf("\t\t\t\t\t[1]=> Login\n");
+        printf("\n");
+        printf("\t\t\t\t\t[2]=> SignUp\n");
+        printf("\n");
+        printf("\t\t\t\t\t[3]=> Find ' UserName '\n");
+        printf("\n");
+        printf("=============================================================================================================\n\n");
+        printf("\t\t\tEnter Your Choice:: ");
+        scanf("%d", &Cho_Service);
 
-    switch (Cho_Service) {
-    case 1: // 로그인
-        for (int i = 0; i < 3; i++) {
-            if (login() == 0) break; // 로그인 성공시 break;
-
-            // 로그인 3회 실패시
-            if (i == 2) {
-                system("cls");
-                printf("\n\n\n");
-                printf("\nSorry you have entered the wrong username and password for %d times!!!\n", i + 1);
-                printf("\n회원 가입으로 이동합니다.\n");
-                printf("\n\n\n\t\t\t\t\tPress any key to continue...");
-                _getch(); //holds the screen
-                SignUp();
-            }
-        }
-        break; // switch case1 end
-
-
-    case 2: //SignUp
-        SignUp();
-
-
-        {// 로그인 (== switch case1
+        switch (Cho_Service) {
+        case 1: // 로그인
             for (int i = 0; i < 3; i++) {
-                if (login() == 0) break; // 로그인 성공시 break;
+                if (login() == 0) {
+                    Cho_Service = 0; // 첫 화면(form while end
+                    break; // 로그인 성공시 break;
+                }
 
                 // 로그인 3회 실패시
                 if (i == 2) {
@@ -83,14 +65,19 @@ main() {
                     SignUp();
                 }
             }
-        }
-        break; // switch case2 end
+            break; // switch case1 end
 
 
-    case 3: // 찾기
-        FindUserName();
-        break;
-    } // switch end
+        case 2: //SignUp
+            SignUp();
+            break; // switch case2 end
+
+
+        case 3: // 찾기
+            FindUserName();
+            break; // switch case3 end
+        } // switch end
+    } while (Cho_Service);
 
 
 
